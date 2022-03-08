@@ -212,9 +212,6 @@ int *marqueurs_negatifs2(EXPERIENCE *xp, int *cptOP) {
             res[emp] = xp->marqueurs[i];
             emp++;
         }
-        else{
-
-        }
     }
     //mergeSort(res,0,(xp->m-xp->p)-1);
     return res;
@@ -262,7 +259,6 @@ void test(int p, int m) {
     EXPERIENCE xp;
     int cpt, *marqueurs_negatifsA, *marqueurs_negatifsB, *marqueurs_negatifsC;
     // Creation de l'experience
-    cree_experience(&xp, p, m);
     /*
     //printf("Marqueurs :\n");
     //affiche(xp.marqueurs, m);
@@ -290,18 +286,23 @@ void test(int p, int m) {
     affiche(marqueurs_negatifsC, xp.m-xp.p);
     printf("Strategie 3 / nombres OP : %d\n\n", cpt);
     */
-    xp.p = 1;
-    for (int j = 0; j < xp.m; j++)
+    p = 1;
+    for (int j = 1; j < m; j++)
     {
-        marqueurs_negatifs1(&xp, &cpt);
-        printf("%2d %2d %2d",xp.m,xp.p,cpt);
-        marqueurs_negatifs2(&xp, &cpt);
+        cree_experience(&xp, p, m);
+        printf("%2d% 2d",m,p);
+        marqueurs_negatifsA = marqueurs_negatifs1(&xp, &cpt);
         printf(" %2d",cpt);
-        marqueurs_negatifs3(&xp, &cpt);
+        marqueurs_negatifsB = marqueurs_negatifs2(&xp, &cpt);
+        printf(" %2d",cpt);
+        marqueurs_negatifsC = marqueurs_negatifs3(&xp, &cpt);
         printf(" %2d\n",cpt);
-        xp.p++;
+        libere_experience(&xp);
+        cpt = 0;
+        p++;
     }
 
+    //  VERIFICATION
     for (int i = 0; i < (xp.m-xp.p); i++)
     {
         if (marqueurs_negatifsA[i] != marqueurs_negatifsB[i]
@@ -315,9 +316,8 @@ void test(int p, int m) {
 
     free(marqueurs_negatifsA);
     free(marqueurs_negatifsB);
-    free(marqueurs_negatifsB);
-
-    libere_experience(&xp);
+    free(marqueurs_negatifsC);
+    //libere_experience(&xp);
 }
 
 
@@ -327,9 +327,9 @@ int main(int argc, const char * argv[]) {
 
     srand((unsigned int)time(NULL));
 
-    printf("Entrez le nombre de marqueurs positifs : ");
+    printf("Entrez le nombre de marqueurs positifs : \n");
     scanf("%d", &p);
-    printf("Entrez le nombre de marqueurs : ");
+    printf("Entrez le nombre de marqueurs : \n");
     scanf("%d", &m);
 
     test(p, m);
